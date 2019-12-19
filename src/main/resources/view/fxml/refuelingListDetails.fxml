@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="429.0" prefWidth="753.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group.shkd.controllers.RefuelingListDetailsController">
+    <HBox alignment="CENTER" layoutX="13.0" layoutY="62.0" prefHeight="357.0" prefWidth="728.0">
+        <VBox prefHeight="200.0" prefWidth="340.0">
+            <Label text="Все картриджи">
+                <font>
+                    <Font size="13.0" />
+                </font>
+            </Label>
+            <HBox alignment="CENTER_LEFT" prefHeight="17.0" prefWidth="340.0">
+                <VBox.margin>
+                    <Insets bottom="8.0" />
+                </VBox.margin>
+            <ComboBox fx:id="searchComboBox" prefHeight="25.0" prefWidth="118.0" value="По номеру">
+               <HBox.margin>
+                  <Insets right="8.0" />
+               </HBox.margin>
+            </ComboBox>
+                <TextField fx:id="searchTextField" prefHeight="25.0" prefWidth="123.0" />
+                <Button fx:id="search" mnemonicParsing="false" onAction="#handleSearch" text="Найти">
+                    <HBox.margin>
+                        <Insets left="8.0" />
+                    </HBox.margin>
+                </Button>
+            <Button mnemonicParsing="false" onAction="#handleDeleteQuery" text="X">
+               <HBox.margin>
+                  <Insets left="8.0" />
+               </HBox.margin>
+            </Button>
+            </HBox>
+            <TableView fx:id="allCartridgesTable" prefHeight="308.0" prefWidth="340.0">
+                <columns>
+                    <TableColumn fx:id="allCartridgesName" prefWidth="75.0" text="Картридж" />
+                    <TableColumn fx:id="allCartridgesNum" prefWidth="75.0" text="Номер" />
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                </columnResizePolicy>
+            </TableView>
+        </VBox>
+        <VBox alignment="CENTER" prefHeight="198.0" prefWidth="47.0">
+            <Button mnemonicParsing="false" text="--&gt;" onAction="#handleAddToList">
+                <VBox.margin>
+                    <Insets bottom="16.0" />
+                </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" text="&lt;--" onAction="#handleDeleteFromList" />
+        </VBox>
+        <VBox prefHeight="200.0" prefWidth="340.0">
+            <Label text="Картриджи в списке на заправку">
+                <font>
+                    <Font size="13.0" />
+                </font>
+            </Label>
+            <TableView fx:id="listCartridgeTable" prefHeight="339.0" prefWidth="340.0">
+                <columns>
+                    <TableColumn fx:id="listCartridgeName" prefWidth="75.0" text="Картридж" />
+                    <TableColumn fx:id="listCartridgeNum" prefWidth="75.0" text="Номер" />
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                </columnResizePolicy>
+            </TableView>
+        </VBox>
+    </HBox>
+    <Button layoutX="675.0" layoutY="12.0" mnemonicParsing="false" onAction="#handleCancel" text="Отмена" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="12.0">
+        <font>
+          <Font size="13.0" />
+        </font>
+    </Button>
+    <Button layoutX="581.0" layoutY="12.0" mnemonicParsing="false" onAction="#handleSave" text="Сохранить" AnchorPane.rightAnchor="91.0" AnchorPane.topAnchor="12.0">
+        <font>
+          <Font size="13.0" />
+        </font>
+    </Button>
+    <Label layoutX="13.0" layoutY="17.0" text="Название списка">
+        <font>
+          <Font size="13.0" />
+        </font>
+    </Label>
+    <TextField fx:id="listName" layoutX="129.0" layoutY="14.0" prefHeight="25.0" prefWidth="225.0" />
+</AnchorPane>
