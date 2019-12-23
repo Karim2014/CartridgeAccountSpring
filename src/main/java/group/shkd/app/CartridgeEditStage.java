@@ -23,6 +23,7 @@ public class CartridgeEditStage extends Stage {
             this.setScene(scene);
             controller = loader.getController();
             this.setTitle("Картридж");
+            controller.setStage(this);
         } catch (Exception e) {
             log.error("CartridgeEditStage", e);
             e.printStackTrace();
@@ -31,6 +32,5 @@ public class CartridgeEditStage extends Stage {
 
     public void showDetails(Cartridge cartridge) {
         controller.showDetails(cartridge);
-        controller.setStage(this);
     }
 }

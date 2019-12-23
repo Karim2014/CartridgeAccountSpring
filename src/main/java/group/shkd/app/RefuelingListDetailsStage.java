@@ -20,6 +20,7 @@ public class RefuelingListDetailsStage extends Stage {
             Scene scene = SpringStageLoader.loadScene("refuelingListDetails", it -> loader = it);
             this.setScene(scene);
             controller = loader.getController();
+            controller.setStage(this);
             this.setTitle("Список на заправку");
             this.setResizable(false);
         } catch (Exception e) {
@@ -29,6 +30,5 @@ public class RefuelingListDetailsStage extends Stage {
 
     public void setRefuelingList(RefuelingList refuelingList) {
         controller.setRefuelingList(refuelingList);
-        controller.setStage(this);
     }
 }

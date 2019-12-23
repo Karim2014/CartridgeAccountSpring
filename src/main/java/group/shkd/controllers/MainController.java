@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
-import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +28,6 @@ public class MainController extends Controller {
     public TableColumn<String, Cartridge> num;
     public TableColumn<String, Cartridge> state;
     public TableColumn<String, Cartridge> note;
-    private Stage stage;
 
     @Autowired
     public MainController(Repository repository) {
@@ -104,12 +102,8 @@ public class MainController extends Controller {
 
     public void listsItemClick(ActionEvent actionEvent) {
         RefuelingListsStage stage = new RefuelingListsStage();
-        stage.initOwner(this.stage);
+        stage.initOwner(this.getStage());
         stage.initModality(Modality.WINDOW_MODAL);
         stage.show();
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
     }
 }

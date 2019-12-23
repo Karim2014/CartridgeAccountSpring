@@ -23,7 +23,7 @@ import java.util.Set;
 import static javafx.scene.control.Alert.*;
 
 @Component
-public class RefuelingListDetailsController {
+public class RefuelingListDetailsController extends Controller {
     public TableView<Cartridge> allCartridgesTable;
     public ComboBox<String> searchComboBox;
     public TableColumn<String, Cartridge> allCartridgesName;
@@ -36,7 +36,6 @@ public class RefuelingListDetailsController {
     public TableColumn<String, Cartridge> listCartridgeNum;
     public Button save;
 
-    private Stage stage;
     private RefuelingList refuelingList;
     private RefuelingList oldList; // Необходимо для того чтобы проверять старую версию с новой для оптимизации сохранения
 
@@ -88,10 +87,6 @@ public class RefuelingListDetailsController {
         listCartridgeTable.setItems(FXCollections.observableList(new ArrayList<>(refuelingListCartridges)));
     }
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
     public void handleAddToList(ActionEvent actionEvent) {
         Cartridge cartridge = allCartridgesTable.getSelectionModel().getSelectedItem();
         this.refuelingList.getCartridges().add(cartridge);
@@ -118,14 +113,14 @@ public class RefuelingListDetailsController {
         Alert alert = new Alert(AlertType.INFORMATION, "Сохранение списка");
         alert.setTitle("Сохранение");
         alert.setHeaderText(null);
-        alert.initOwner(stage);
+        alert.initOwner(this.getStage());
         alert.getButtonTypes().clear();
         new Thread(() -> {
             Platform.runLater(alert::show);
             repository.getRefuelingListDao().update(this.refuelingList);
             Platform.runLater(() -> {
                 alert.close();
-                stage.close();
+                this.getStage().close();
             });
         }).start();
     }
@@ -134,7 +129,7 @@ public class RefuelingListDetailsController {
         if (!refuelingList.equals(oldList)) {
             Alert alert = new Alert(AlertType.CONFIRMATION, "Закрыть без сохранения?", ButtonType.NO, ButtonType.YES);
             alert.setHeaderText(null);
-            alert.initOwner(stage);
+            alert.initOwner(this.getStage());
 
             ((Button) alert.getDialogPane().lookupButton(ButtonType.YES)).setDefaultButton(false);
             ((Button) alert.getDialogPane().lookupButton(ButtonType.NO)).setDefaultButton(true);
@@ -143,11 +138,11 @@ public class RefuelingListDetailsController {
 
             buttonType.ifPresent(buttonType1 -> {
                 if (buttonType1 == ButtonType.YES) {
-                    stage.close();
+                    this.getStage().close();
                 }
             });
         } else
-            stage.close();
+            this.getStage().close();
     }
 
     public void handleChangeNum(KeyEvent actionEvent) {

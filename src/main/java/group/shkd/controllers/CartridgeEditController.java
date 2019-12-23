@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CartridgeEditController extends Controller {
-    private Stage stage;
     public Tab tabCartridge;
     public Button tabCartridgeButtonCancel;
     public Button tabCartridgeButtonOk;
@@ -98,10 +97,6 @@ public class CartridgeEditController extends Controller {
     public void keyPressed(KeyEvent keyEvent) {
         //TODO Попробовать перевести на скрипты в FXML
         fullName.setText(producer.getValue() + " " + name.getText());
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
     }
 
 }

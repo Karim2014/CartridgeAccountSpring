@@ -20,8 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class RefuelingListsController {
-    private Stage stage;
+public class RefuelingListsController extends Controller {
     public ListView<RefuelingList> listView;
     public Button add;
     public Button edit;
@@ -53,7 +52,7 @@ public class RefuelingListsController {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Вы действительно хотите удалить список?", ButtonType.YES, ButtonType.NO);
             alert.setTitle("Удаление");
             alert.setHeaderText(null);
-            alert.initOwner(stage);
+            alert.initOwner(this.getStage());
             Optional<ButtonType> button = alert.showAndWait();
             button.ifPresent(buttonType -> {
                 if (buttonType == ButtonType.YES) {
@@ -64,22 +63,18 @@ public class RefuelingListsController {
     }
 
     public void handleCloseStage(ActionEvent actionEvent) {
-        stage.close();
+        getStage().close();
     }
 
     private void showRefuelingListDetailsStage(RefuelingList refuelingList) {
         RefuelingListDetailsStage stage = new RefuelingListDetailsStage();
         stage.setRefuelingList(refuelingList);
-        stage.initOwner(this.stage);
+        stage.initOwner(this.getStage());
         stage.showAndWait();
         fillData(repository.getRefuelingListDao().findAllLight());
     }
 
     private void fillData(List<RefuelingList> refuelingLists) {
         listView.setItems(FXCollections.observableList(refuelingLists));
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
     }
 }
