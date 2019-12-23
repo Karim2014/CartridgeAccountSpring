@@ -3,10 +3,13 @@ package group.shkd.controllers;
 import group.shkd.model.Cartridge;
 import group.shkd.model.RefuelingList;
 import group.shkd.model.Repository;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +17,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+
+import static javafx.scene.control.Alert.*;
 
 @Component
 public class RefuelingListDetailsController {
@@ -28,6 +34,7 @@ public class RefuelingListDetailsController {
     public TableView<Cartridge> listCartridgeTable;
     public TableColumn<String, Cartridge> listCartridgeName;
     public TableColumn<String, Cartridge> listCartridgeNum;
+    public Button save;
 
     private Stage stage;
     private RefuelingList refuelingList;
@@ -68,9 +75,10 @@ public class RefuelingListDetailsController {
 
     public void setRefuelingList(RefuelingList refuelingList) {
         this.refuelingList = repository.getRefuelingListDao().findById(refuelingList.getId()).orElse(refuelingList);
-        this.oldList = this.refuelingList;
+        this.oldList = new RefuelingList(this.refuelingList);
         listName.setText(refuelingList.getNum());
         fillTablesData(repository.getCartridgeDao().findAll(), this.refuelingList.getCartridges());
+        checkLists();
     }
 
     private void fillTablesData(List<Cartridge> cartridges, Set<Cartridge> refuelingListCartridges) {
@@ -89,6 +97,7 @@ public class RefuelingListDetailsController {
         this.refuelingList.getCartridges().add(cartridge);
         listCartridgeTable.getItems().add(cartridge);
         allCartridgesTable.getItems().remove(cartridge);
+        checkLists();
     }
 
     public void handleDeleteFromList(ActionEvent actionEvent) {
@@ -96,18 +105,54 @@ public class RefuelingListDetailsController {
         this.refuelingList.getCartridges().remove(cartridge);
         allCartridgesTable.getItems().add(cartridge);
         listCartridgeTable.getItems().remove(cartridge);
+        checkLists();
+    }
+
+    private void checkLists() {
+        System.out.println(oldList.getCartridges());
+        System.out.println(refuelingList.getCartridges());
+        save.setDisable(oldList.equals(this.refuelingList));
     }
 
     public void handleSave(ActionEvent actionEvent) {
-        if (refuelingList.equals(oldList)) {
-            this.refuelingList.setNum(listName.getText());
+        Alert alert = new Alert(AlertType.INFORMATION, "Сохранение списка");
+        alert.setTitle("Сохранение");
+        alert.setHeaderText(null);
+        alert.initOwner(stage);
+        alert.getButtonTypes().clear();
+        new Thread(() -> {
+            Platform.runLater(alert::show);
             repository.getRefuelingListDao().update(this.refuelingList);
-        }
-        stage.close();
+            Platform.runLater(() -> {
+                alert.close();
+                stage.close();
+            });
+        }).start();
     }
 
     public void handleCancel(ActionEvent actionEvent) {
-        stage.close();
+        if (!refuelingList.equals(oldList)) {
+            Alert alert = new Alert(AlertType.CONFIRMATION, "Закрыть без сохранения?", ButtonType.NO, ButtonType.YES);
+            alert.setHeaderText(null);
+            alert.initOwner(stage);
+
+            ((Button) alert.getDialogPane().lookupButton(ButtonType.YES)).setDefaultButton(false);
+            ((Button) alert.getDialogPane().lookupButton(ButtonType.NO)).setDefaultButton(true);
+
+            Optional<ButtonType> buttonType = alert.showAndWait();
+
+            buttonType.ifPresent(buttonType1 -> {
+                if (buttonType1 == ButtonType.YES) {
+                    stage.close();
+                }
+            });
+        } else
+            stage.close();
+    }
+
+    public void handleChangeNum(KeyEvent actionEvent) {
+        this.refuelingList.setNum(listName.getText());
+        checkLists();
     }
 
     public void handleSearch(ActionEvent actionEvent) {

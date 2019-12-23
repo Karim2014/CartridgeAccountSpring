@@ -11,13 +11,13 @@ public class RefuelingListsStage extends Stage {
 
     public RefuelingListsStage() {
         this.centerOnScreen();
-        //TODO Установить размеры по умолчанию
         try {
             Scene scene = SpringStageLoader.loadScene("refuelingLists", it -> loader = it);
             this.setScene(scene);
             controller = loader.getController();
             controller.setStage(this);
             this.setTitle("Списки на заправку");
+            this.setResizable(false);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -7,11 +7,14 @@ import group.shkd.model.RefuelingList;
 import group.shkd.model.State;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.*;
 
 @Component
@@ -101,15 +104,24 @@ public class RefuelingListDaoImpl implements RefuelingListDao {
         log.info("Обновление списка " + model.getNum());
         template.update(SQL_UPDATE_REFUELING_LIST, model.getNum(), model.getId());
         //обновление промежуточной таблицы
-        /*// сперва удаляем старые записи
+        // сперва удаляем старые записи
         log.info("Удаление старых зависимостей");
-        //template.update("DELETE FROM refuelingList_cartridge WHERE refuelingList=?", model.getId());*/
-        findById(model.getId()
-        model.getCartridges().forEach(cartridge -> {
-            template.update(SQL_INSERT_MEDIATOR, model.getId(), cartridge.getId());
+        template.update("DELETE FROM refuelingList_cartridge WHERE refuelingList=?", model.getId());
+        //findById(model.getId()
+        List<Cartridge> cartridges = new ArrayList<>(model.getCartridges());
+        template.batchUpdate(SQL_INSERT_MEDIATOR, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
+                preparedStatement.setInt(1, model.getId());
+                preparedStatement.setInt(2, cartridges.get(i).getId());
+            }
+
+            @Override
+            public int getBatchSize() {
+                return cartridges.size();
+            }
         });
     }
-
     @Override
     public void delete(int id) {
         template.update("DELETE FROM refuelingList WHERE id=?", id);

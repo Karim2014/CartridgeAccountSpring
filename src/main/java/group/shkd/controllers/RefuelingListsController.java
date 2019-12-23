@@ -1,21 +1,23 @@
 package group.shkd.controllers;
 
 import group.shkd.app.RefuelingListDetailsStage;
-import group.shkd.app.RefuelingListsStage;
 import group.shkd.model.RefuelingList;
 import group.shkd.model.Repository;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
-import lombok.ToString;
+import javafx.stage.StageStyle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class RefuelingListsController {
@@ -43,15 +45,34 @@ public class RefuelingListsController {
     public void handleEditRefuelingList(ActionEvent actionEvent) {
         if (listView.getSelectionModel().getSelectedItem() != null) {
             showRefuelingListDetailsStage(listView.getSelectionModel().getSelectedItem());
-            listView.refresh();
         }
+    }
+
+    public void handleDeleteRefuelingList(ActionEvent actionEvent) {
+        if (listView.getSelectionModel().getSelectedItem() != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Вы действительно хотите удалить список?", ButtonType.YES, ButtonType.NO);
+            alert.setTitle("Удаление");
+            alert.setHeaderText(null);
+            alert.initOwner(stage);
+            Optional<ButtonType> button = alert.showAndWait();
+            button.ifPresent(buttonType -> {
+                if (buttonType == ButtonType.YES) {
+                    repository.getRefuelingListDao().delete(listView.getSelectionModel().getSelectedItem().getId());
+                }
+            });
+        }
+    }
+
+    public void handleCloseStage(ActionEvent actionEvent) {
+        stage.close();
     }
 
     private void showRefuelingListDetailsStage(RefuelingList refuelingList) {
         RefuelingListDetailsStage stage = new RefuelingListDetailsStage();
         stage.setRefuelingList(refuelingList);
         stage.initOwner(this.stage);
-        stage.show();
+        stage.showAndWait();
+        fillData(repository.getRefuelingListDao().findAllLight());
     }
 
     private void fillData(List<RefuelingList> refuelingLists) {

@@ -73,19 +73,23 @@ public class RefuelingListDaoImplTest {
 
     @Test
     public void update() {
-        int searchId = 5;
+        int searchId = 16;
 
         RefuelingList expected = new RefuelingList(searchId, "Список JUnit UPD", new LinkedHashSet<>());
         expected.getCartridges().add(
                 new Cartridge(12, new Producer(1, "CANON"), "Cartridge 703", "4", new State(1, "Заправлен в ЗиПе"), ""));
         expected.getCartridges().add(
-                new Cartridge(12, new Producer(1, "CANON"), "Cartridge 703", "4", new State(1, "Заправлен в ЗиПе"), ""));
+                new Cartridge(13, new Producer(1, "CANON"), "Cartridge 703", "5", new State(1, "Заправлен в ЗиПе"), ""));
         expected.getCartridges().add(
-                new Cartridge(12, new Producer(1, "CANON"), "Cartridge 703", "4", new State(1, "Заправлен в ЗиПе"), ""));
+                new Cartridge(14, new Producer(1, "CANON"), "Cartridge 703", "6", new State(1, "Заправлен в ЗиПе"), ""));
 
         refuelingListDao.update(expected);
 
         RefuelingList actual = refuelingListDao.findById(searchId).orElse(new RefuelingList(searchId, "Список-N попал на Null actual", new LinkedHashSet<>()));
+
+        System.out.println(expected);
+        System.out.println(actual);
+
 
         Assert.assertEquals(expected, actual);
     }

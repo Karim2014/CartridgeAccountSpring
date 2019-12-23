@@ -1,6 +1,7 @@
 package group.shkd.app;
 
 import group.shkd.controllers.Controller;
+import group.shkd.controllers.MainController;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -38,12 +39,13 @@ public final class SpringStageLoader implements ApplicationContextAware {
         }
         return loader.load(SpringStageLoader.class.getResourceAsStream(FXML_DIR + fxmlName + FXML_EXT));
     }
-
+    private static FXMLLoader loader;
     public static Stage loadMain(Stage stage) {
         try {
             stage.setOnHidden(windowEvent -> Platform.exit());
             stage.setTitle("Учет картриджей ШКД");
-            stage.setScene(new Scene(load(MAIN_STAGE, null)));
+            stage.setScene(new Scene(load(MAIN_STAGE, it -> loader = it)));
+            ((MainController) loader.getController()).setStage(stage);
         } catch (IOException e) {
             logError(MAIN_STAGE, e);
         }

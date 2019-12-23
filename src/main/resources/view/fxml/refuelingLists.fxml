@@ -25,12 +25,12 @@
                 <Insets left="8.0"/>
             </HBox.margin>
         </Button>
-        <Button mnemonicParsing="false" text="Удалить" fx:id="delete">
+        <Button mnemonicParsing="false" text="Удалить" fx:id="delete" onAction="#handleDeleteRefuelingList">
             <HBox.margin>
                 <Insets left="16.0"/>
             </HBox.margin>
         </Button>
     </HBox>
     <Button layoutX="308.0" layoutY="284.0" mnemonicParsing="false" text="Закрыть" AnchorPane.bottomAnchor="14.0"
-            AnchorPane.rightAnchor="14.0" fx:id="close"/>
+            AnchorPane.rightAnchor="14.0" fx:id="close" onAction="#handleCloseStage"/>
 </AnchorPane>

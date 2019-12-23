@@ -3,14 +3,14 @@ package group.shkd.controllers;
 import group.shkd.app.CartridgeEditStage;
 import group.shkd.app.RefuelingListsStage;
 import group.shkd.model.Cartridge;
-import group.shkd.model.Producer;
 import group.shkd.model.Repository;
-import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +29,7 @@ public class MainController extends Controller {
     public TableColumn<String, Cartridge> num;
     public TableColumn<String, Cartridge> state;
     public TableColumn<String, Cartridge> note;
+    private Stage stage;
 
     @Autowired
     public MainController(Repository repository) {
@@ -60,6 +61,7 @@ public class MainController extends Controller {
     private void showCartridgeEditStage(Cartridge cartridge) {
         CartridgeEditStage cartridgeEditStage = new CartridgeEditStage();
         cartridgeEditStage.showDetails(cartridge);
+        cartridgeEditStage.initOwner(this.stage);
         cartridgeEditStage.showAndWait();
     }
 
@@ -101,9 +103,13 @@ public class MainController extends Controller {
     }
 
     public void listsItemClick(ActionEvent actionEvent) {
-        // TODO сделать stage как Singleton
         RefuelingListsStage stage = new RefuelingListsStage();
-        //stage.initOwner(this.stage);
+        stage.initOwner(this.stage);
+        stage.initModality(Modality.WINDOW_MODAL);
         stage.show();
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 }
