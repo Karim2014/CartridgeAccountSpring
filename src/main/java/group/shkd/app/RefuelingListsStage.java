@@ -3,6 +3,7 @@ package group.shkd.app;
 import group.shkd.controllers.RefuelingListsController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class RefuelingListsStage extends Stage {
@@ -11,6 +12,7 @@ public class RefuelingListsStage extends Stage {
 
     public RefuelingListsStage() {
         this.centerOnScreen();
+        this.initModality(Modality.WINDOW_MODAL);
         try {
             Scene scene = SpringStageLoader.loadScene("refuelingLists", it -> loader = it);
             this.setScene(scene);

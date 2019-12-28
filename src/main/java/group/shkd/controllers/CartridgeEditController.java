@@ -53,7 +53,7 @@ public class CartridgeEditController extends Controller {
 
 
     public void handleCancel(ActionEvent actionEvent) {
-        stage.close();
+        getStage().close();
     }
 
     public void handleOk(ActionEvent actionEvent) {
@@ -70,7 +70,7 @@ public class CartridgeEditController extends Controller {
 
         repository.insertOrUpdate(cartridge);
 
-        stage.close();
+        getStage().close();
     }
 
     private boolean correctInput() {

@@ -10,14 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.*;
 
-@Component
+@Repository
 public class RefuelingListDaoImpl implements RefuelingListDao {
     private static final Logger log = Logger.getLogger(RefuelingListDaoImpl.class);
     private JdbcTemplate template;

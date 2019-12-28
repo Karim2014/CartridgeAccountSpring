@@ -7,11 +7,11 @@ import group.shkd.dao.StateDao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Scope;
 
-import java.util.List;
 
-@Component
+@org.springframework.stereotype.Repository
+@Scope("singleton")
 public class Repository {
     private CartridgeDao cartridgeDao;
     private ProducerDao producerDao;

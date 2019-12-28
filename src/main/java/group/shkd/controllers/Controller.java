@@ -10,6 +10,6 @@ public abstract class Controller {
 
     @Getter
     @Setter
-    Stage stage;
+    private Stage stage;
 
 }

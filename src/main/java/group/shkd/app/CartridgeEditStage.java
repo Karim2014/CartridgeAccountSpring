@@ -16,7 +16,7 @@ public class CartridgeEditStage extends Stage {
     private CartridgeEditController controller;
 
     public CartridgeEditStage() {
-        this.initModality(Modality.APPLICATION_MODAL);
+        this.initModality(Modality.WINDOW_MODAL);
         this.centerOnScreen();
         try {
             Scene scene = SpringStageLoader.loadScene("cartridgeDetails", it -> loader = it);

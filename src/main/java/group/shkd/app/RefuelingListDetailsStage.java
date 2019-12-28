@@ -15,7 +15,7 @@ public class RefuelingListDetailsStage extends Stage {
 
     public RefuelingListDetailsStage() {
         this.centerOnScreen();
-        this.initModality(Modality.APPLICATION_MODAL);
+        this.initModality(Modality.WINDOW_MODAL);
         try {
             Scene scene = SpringStageLoader.loadScene("refuelingListDetails", it -> loader = it);
             this.setScene(scene);

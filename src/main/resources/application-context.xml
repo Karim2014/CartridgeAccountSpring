@@ -18,8 +18,4 @@
         <property name="password" value="${db.password}"/>
     </bean>
 
-    <bean name="repository" class="group.shkd.model.Repository" scope="singleton">
-
-    </bean>
-
 </beans>

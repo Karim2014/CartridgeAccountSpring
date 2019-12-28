@@ -45,6 +45,7 @@ public final class SpringStageLoader implements ApplicationContextAware {
             stage.setOnHidden(windowEvent -> Platform.exit());
             stage.setTitle("Учет картриджей ШКД");
             stage.setScene(new Scene(load(MAIN_STAGE, it -> loader = it)));
+            stage.setMaximized(true);
             ((Controller) loader.getController()).setStage(stage);
         } catch (IOException e) {
             logError(MAIN_STAGE, e);

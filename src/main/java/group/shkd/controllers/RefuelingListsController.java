@@ -6,13 +6,8 @@ import group.shkd.model.Repository;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -56,10 +51,25 @@ public class RefuelingListsController extends Controller {
             Optional<ButtonType> button = alert.showAndWait();
             button.ifPresent(buttonType -> {
                 if (buttonType == ButtonType.YES) {
-                    repository.getRefuelingListDao().delete(listView.getSelectionModel().getSelectedItem().getId());
+                    RefuelingList refuelingList = listView.getSelectionModel().getSelectedItem();
+                    repository.getRefuelingListDao().delete(refuelingList.getId());
+                    listView.getItems().remove(refuelingList);
                 }
             });
         }
+    }
+
+    public void handleAddRefuelingList(ActionEvent actionEvent) {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Новый список");
+        dialog.setContentText("Введите название списка");
+        dialog.setHeaderText(null);
+        dialog.initOwner(getStage());
+        Optional<String> text = dialog.showAndWait();
+        text.ifPresent(s -> {
+            repository.getRefuelingListDao().save(new RefuelingList(-1, s, null));
+            fillData(repository.getRefuelingListDao().findAllLight());
+        });
     }
 
     public void handleCloseStage(ActionEvent actionEvent) {

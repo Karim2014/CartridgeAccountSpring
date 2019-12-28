@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="33725feb-46a5-49d8-8e2b-582319315020">
+	<property name="ireport.zoom" value="1.6105100000000014"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Formal" isDefault="true" forecolor="#000000" backcolor="#FFFFFF" fill="Solid" hAlign="Left" vAlign="Middle" isBlankWhenNull="true" fontName="Times New Roman" fontSize="14" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
+		<box topPadding="0" leftPadding="0">
+			<pen lineWidth="0.75" lineStyle="Solid"/>
+			<topPen lineWidth="0.75" lineStyle="Solid"/>
+			<leftPen lineWidth="0.75" lineStyle="Solid"/>
+			<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+			<rightPen lineWidth="0.75" lineStyle="Solid"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1" uuid="a49c89b2-8394-4ea7-8f5e-c8f2e152785e"/>
+	<parameter name="list_id"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT r.id as r_id, r.[num] as r_num,
+c.id as c_id, c.name as c_name, c.num as c_num, c.note,
+p.title as prod_title, p.id as prod_id,
+s.[title] as state_title, s.id as state_id
+FROM [refuelingList] as r
+LEFT JOIN [refuelingList_cartridge] as rc ON r.id = rc.refuelingList
+LEFT JOIN cartridge as c ON rc.cartridge=c.id
+LEFT JOIN producer as p ON c.producer=p.id
+LEFT JOIN states as s ON c.[state]=s.id
+WHERE r.id=$P{list_id}]]>
+	</queryString>
+	<field name="c_name" class="java.lang.String"/>
+	<field name="c_num" class="java.lang.String"/>
+	<variable name="ROW_NUMBER" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{c_name}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="205" y="0" width="158" height="20" uuid="e7266508-1e32-4b38-881e-03c8b27f0da6"/>
+				<text><![CDATA[Картриджи на заправку]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="8" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="35" y="0" width="49" height="20" uuid="832fca76-8d23-4c3d-81fd-759c37506960"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="14"/>
+				</textElement>
+				<text><![CDATA[№п/п]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="84" y="0" width="188" height="20" uuid="eed0b874-52b3-423f-aaf4-5964e397e0bd"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="14"/>
+				</textElement>
+				<text><![CDATA[Картридж]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="272" y="0" width="239" height="20" uuid="1f660ae5-7a3c-464c-b640-90169b7fdd46"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="14"/>
+				</textElement>
+				<text><![CDATA[Номер]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="84" y="0" width="188" height="20" uuid="2c31d6ee-160b-4004-8a90-10ed526a620b"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{c_name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="272" y="0" width="239" height="20" uuid="5a6f51a1-4f9c-49f2-9135-fe1deed29d5f"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{c_num}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="35" y="0" width="49" height="20" uuid="99fb6a7d-e33c-4f6d-83e9-ac7b328134ae"/>
+				<textElement markup="styled">
+					<font fontName="Times New Roman" size="14"/>
+					<paragraph lineSpacing="Single" leftIndent="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{ROW_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="9" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="10" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="12" splitType="Stretch"/>
+	</summary>
+</jasperReport>

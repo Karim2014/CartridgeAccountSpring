@@ -8,13 +8,13 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Repository
 public class CartridgeDaoImpl implements CartridgeDao {
     private final Logger log = Logger.getLogger(CartridgeDaoImpl.class);
     private JdbcTemplate template;
@@ -25,7 +25,7 @@ public class CartridgeDaoImpl implements CartridgeDao {
             "LEFT JOIN producer as p ON c.producer = p.id " +
             "LEFT JOIN states as s ON c.state = s.id ";
 
-    private final String ORDER_BY_NAME = "ORDER BY c.name ";
+    private final String ORDER_BY_NAME = "ORDER BY c.full_name ";
 
     private final String SQL_FIND_BY_ID =
             SQL_FIND_ALL + "WHERE c.id = ? ";

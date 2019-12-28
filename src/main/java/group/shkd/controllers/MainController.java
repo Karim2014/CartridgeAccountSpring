@@ -59,7 +59,7 @@ public class MainController extends Controller {
     private void showCartridgeEditStage(Cartridge cartridge) {
         CartridgeEditStage cartridgeEditStage = new CartridgeEditStage();
         cartridgeEditStage.showDetails(cartridge);
-        cartridgeEditStage.initOwner(this.stage);
+        cartridgeEditStage.initOwner(this.getStage());
         cartridgeEditStage.showAndWait();
     }
 
@@ -77,11 +77,16 @@ public class MainController extends Controller {
     }
 
     public void handleDeleteCartridge(ActionEvent actionEvent) {
-        if (tableView.getSelectionModel().getSelectedItem() != null) {
-            repository.getCartridgeDao().delete(tableView.getSelectionModel().getSelectedItem().getId());
-            tableView.getItems().removeAll(tableView.getItems());
-            tableView.getItems().addAll(repository.getCartridgeDao().findAll());
-        }
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Вы действительно хотите удлаить картридж?", ButtonType.YES, ButtonType.NO);
+        alert.setHeaderText(null);
+        alert.setTitle("Удаление");
+        alert.showAndWait().ifPresent(buttonType -> {
+            if (tableView.getSelectionModel().getSelectedItem() != null) {
+                repository.getCartridgeDao().delete(tableView.getSelectionModel().getSelectedItem().getId());
+                tableView.getItems().removeAll(tableView.getItems());
+                tableView.getItems().addAll(repository.getCartridgeDao().findAll());
+            }
+        });
     }
 
     public void handleSearchCartridge(ActionEvent actionEvent) {
@@ -103,7 +108,6 @@ public class MainController extends Controller {
     public void listsItemClick(ActionEvent actionEvent) {
         RefuelingListsStage stage = new RefuelingListsStage();
         stage.initOwner(this.getStage());
-        stage.initModality(Modality.WINDOW_MODAL);
         stage.show();
     }
 }
