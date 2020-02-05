@@ -1,6 +1,7 @@
 package group.shkd.controllers;
 
 import group.shkd.app.CartridgeEditStage;
+import group.shkd.app.ExportStage;
 import group.shkd.app.RefuelingListsStage;
 import group.shkd.model.Cartridge;
 import group.shkd.model.Repository;
@@ -99,6 +100,12 @@ public class MainController extends Controller {
 
     public void handleRemoveQuerry(ActionEvent actionEvent) {
 
+    }
+
+    public void handleExport(ActionEvent actionEvent) {
+        ExportStage exportStage = new ExportStage();
+        exportStage.initOwner(getStage());
+        exportStage.show();
     }
 
     public void fillData(List<Cartridge> cartridges) {

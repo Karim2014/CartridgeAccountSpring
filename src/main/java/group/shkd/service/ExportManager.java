@@ -2,11 +2,12 @@ package group.shkd.service;
 
 import group.shkd.model.Cartridge;
 import group.shkd.model.RefuelingList;
-import group.shkd.model.Repository;
 import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
-import net.sf.jasperreports.export.*;
+import net.sf.jasperreports.export.ExporterInput;
+import net.sf.jasperreports.export.OutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -51,10 +52,13 @@ public class ExportManager {
         ExporterInput exporterInput = new SimpleExporterInput(jasperPrint);
         exporter.setExporterInput(exporterInput);
         //Output
-        OutputStreamExporterOutput exporterOutput = new SimpleOutputStreamExporterOutput("output.xlsx");
+        File file = new File(fileName);
+        file.getParentFile().mkdirs();
+        //file.mkdirs();
+        OutputStreamExporterOutput exporterOutput = new SimpleOutputStreamExporterOutput(fileName);
         exporter.setExporterOutput(exporterOutput);
 
-        SimpleXlsxExporterConfiguration configuration = new SimpleXlsxExporterConfiguration();
+        //SimpleXlsxExporterConfiguration configuration = new SimpleXlsxExporterConfiguration();
 
         //exporter.setConfiguration(configuration);
         exporter.exportReport();

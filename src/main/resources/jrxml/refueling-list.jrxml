@@ -16,7 +16,7 @@
 	<parameter name="list_id"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT r.id as r_id, r.[num] as r_num,
-c.id as c_id, c.name as c_name, c.num as c_num, c.note,
+c.id as c_id, c.full_name as c_name, c.num as c_num, c.note,
 p.title as prod_title, p.id as prod_id,
 s.[title] as state_title, s.id as state_id
 FROM [refuelingList] as r
