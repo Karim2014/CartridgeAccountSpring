@@ -18,4 +18,11 @@
         <property name="password" value="${db.password}"/>
     </bean>
 
+    <bean name="testDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="url" value="${test-db.url}"/>
+        <property name="driverClassName" value="${db.driver}"/>
+        <property name="username" value="${db.user}"/>
+        <property name="password" value="${db.password}"/>
+    </bean>
+
 </beans>

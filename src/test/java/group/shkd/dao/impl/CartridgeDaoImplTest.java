@@ -21,7 +21,7 @@ public class CartridgeDaoImplTest {
 
     @Before
     public void setUp() throws Exception {
-        cartridgeDao = new CartridgeDaoImpl((DataSource) context.getBean("dataSource"));
+        cartridgeDao = new CartridgeDaoImpl((DataSource) context.getBean("testDataSource"));
     }
 
     @Test

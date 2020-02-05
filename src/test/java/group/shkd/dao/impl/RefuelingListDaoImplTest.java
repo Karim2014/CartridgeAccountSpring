@@ -24,7 +24,7 @@ public class RefuelingListDaoImplTest {
 
     @Before
     public void setUp() throws Exception {
-        refuelingListDao = new RefuelingListDaoImpl((DataSource) context.getBean("dataSource"));
+        refuelingListDao = new RefuelingListDaoImpl((DataSource) context.getBean("testDataSource"));
     }
 
     @Test
